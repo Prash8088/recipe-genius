@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/recipeDB")
+mongoose.connect("mongodb+srv://Prashantha:Prash@8088@cluster0.xxxxx.mongodb.net/recipeDB")
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
