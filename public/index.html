@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Let Us cook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+     * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1f4037, #99f2c8);
+      min-height: 100vh;
+      color: #333;
+      padding-top: 80px;
+    }
+    body {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+body.loaded {
+  opacity: 1;
+}
+
+
+    header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  z-index: 1000;
+  color: white;
+}
+
+
+    header h1 {
+      font-weight: 700;
+      font-size: 26px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px 30px;
+      color: white;
+    }
+
+    .hero h2 {
+      font-size: 36px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+
+    .search-box {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .search-box input {
+      width: 300px;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .search-box button {
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: none;
+      background: #ff7b00;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .search-box button:hover {
+      background: #ff9500;
+      transform: scale(1.05);
+    }
+
+    .grid {
+      max-width: 1200px;
+      margin: 40px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 0 20px 50px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card-content h3 {
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .card-content p {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .card-content button {
+      padding: 8px 12px;
+      border: none;
+      background: #1f4037;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .card-content button:hover {
+      background: #2c6e63;
+    }
+
+    #loader {
+      text-align: center;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .spinner {
+      border: 6px solid #eee;
+      border-top: 6px solid #ff7b00;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    .banner {
+  width: 100%;
+  height: 300px;
+  background: url('https://images.unsplash.com/photo-1498837167922-ddd27525d352') center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 30px 50px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.overlay h3 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.overlay p {
+  font-size: 14px;
+}
+
+/* PARALLAX + ZOOM BACKGROUND */
+.banner {
+  width: 100%;
+  height: 350px;
+  background: url('https://images.unsplash.com/photo-1498837167922-ddd27525d352') center/cover no-repeat fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Slow zoom animation */
+.banner::before {
+  content: "";
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  background: inherit;
+  background-size: cover;
+  background-position: center;
+  animation: slowZoom 20s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+@keyframes slowZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+/* Overlay styling */
+.overlay {
+  position: relative;
+  background: rgba(0, 0, 0, 0.55);
+  color: white;
+  padding: 40px 60px;
+  border-radius: 15px;
+  text-align: center;
+  z-index: 1;
+  backdrop-filter: blur(6px);
+}
+
+/* Fade-in text animation */
+.fade-text {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s ease forwards;
+}
+
+.fade-text.delay {
+  animation-delay: 0.6s;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Explore button */
+.explore-btn {
+  margin-top: 20px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #ff7b00, #ff9500);
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.explore-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+ .particles {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.particles span {
+  position: absolute;
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  animation: float 15s linear infinite;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(100vh);
+  }
+  to {
+    transform: translateY(-10vh);
+  }
+}
+
+  </style>
+</head>
+
+<body>
+<div class="particles"></div>
+
+  <header>
+    <h1>🍽 Let Us Cook</h1>
+    <div id="userSection"></div>
+  </header>
+
+  <div class="hero">
+    <h2>Discover Delicious Recipes</h2>
+    <p>Search your favorite ingredients and cook something amazing today.</p>
+
+    <div class="search-box">
+      <input type="text" id="ingredient" placeholder="Search recipes...">
+      <select id="category">
+  <option value="All">All</option>
+  <option value="Veg">Veg</option>
+  <option value="Non-Veg">Non-Veg</option>
+</select>
+
+      <button onclick="searchRecipes()">Search</button>
+    </div>
+  </div>
+
+  </div>
+
+<div class="banner">
+  <div class="overlay">
+    <h3 id="typingText"></h3>
+
+    <p class="fade-text delay">
+      Discover amazing recipes and elevate your cooking experience.
+    </p>
+    <button class="explore-btn" onclick="scrollToRecipes()">
+      Explore Recipes
+    </button>
+  </div>
+</div>
+
+
+
+  <div id="loader">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="grid" id="results"></div>
+
+<script>
+async function scrollToRecipes() {
+  const loader = document.getElementById("loader");
+  const resultsDiv = document.getElementById("results");
+
+  loader.style.display = "block";
+  resultsDiv.innerHTML = "";
+
+  const response = await fetch("http://localhost:5000/all-recipes");
+  const data = await response.json();
+
+  loader.style.display = "none";
+
+  if (data.length === 0) {
+    resultsDiv.innerHTML = "<p style='color:white;text-align:center;'>No recipes found.</p>";
+    return;
+  }
+
+  data.forEach(recipe => {
+    const div = document.createElement("div");
+    div.classList.add("card");
+
+    div.innerHTML = `
+      <img src="${recipe.image || 'https://picsum.photos/400/300'}">
+      <div class="card-content">
+        <h3>${recipe.title}</h3>
+        <p>${recipe.ingredients?.substring(0,100)}...</p>
+        <button onclick="window.location.href='recipe.html?id=${recipe._id}'">
+          View Full Recipe
+        </button>
+      </div>
+    `;
+
+    resultsDiv.appendChild(div);
+  });
+
+  resultsDiv.scrollIntoView({ behavior: "smooth" });
+}
+
+async function searchRecipes() {
+  const query = document.getElementById("ingredient").value;
+
+  const loader = document.getElementById("loader");
+  const resultsDiv = document.getElementById("results");
+
+  loader.style.display = "block";
+  resultsDiv.innerHTML = "";
+
+  const category = document.getElementById("category").value;
+
+const response = await fetch(
+  `http://localhost:5000/search?ingredient=${query}&category=${category}`
+);
+
+
+  const data = await response.json();
+
+  loader.style.display = "none";
+
+  if (data.length === 0) {
+    resultsDiv.innerHTML = "<p style='color:white;text-align:center;'>No recipes found.</p>";
+    return;
+  }
+
+  data.forEach(recipe => {
+    const div = document.createElement("div");
+    div.classList.add("card");
+
+    div.innerHTML = `
+      <img src="${recipe.image || 'https://picsum.photos/400/300'}">
+      <div class="card-content">
+        <h3>${recipe.title}</h3>
+        <p>${recipe.ingredients?.substring(0,100)}...</p>
+        <button onclick="window.location.href='recipe.html?id=${recipe._id}'">
+          View Full Recipe
+        </button>
+      </div>
+    `;
+
+    resultsDiv.appendChild(div);
+  });
+}
+
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+    }
+
+
+const text = "Cook With Passion ❤️";
+let index = 0;
+
+function typeEffect() {
+  if (index < text.length) {
+    document.getElementById("typingText").innerHTML += text.charAt(index);
+    index++;
+    setTimeout(typeEffect, 80);
+  }
+}
+
+window.onload = function() {
+  document.body.classList.add("loaded");
+  typeEffect();
+};
+
+
+function createParticles() {
+  const particles = document.querySelector(".particles");
+
+  for (let i = 0; i < 25; i++) {
+    const span = document.createElement("span");
+    span.style.left = Math.random() * 100 + "vw";
+    span.style.animationDuration = (10 + Math.random() * 10) + "s";
+    particles.appendChild(span);
+  }
+}
+
+createParticles();
+
+</script>
+<script>
+// 🔐 Check login state
+function checkLogin() {
+  const email = localStorage.getItem("userEmail");
+  const userSection = document.getElementById("userSection");
+
+  if (email) {
+    userSection.innerHTML = `
+      Welcome ${email} 👋
+      <button onclick="logout()" style="margin-left:10px;">Logout</button>
+    `;
+  } else {
+    userSection.innerHTML = `
+      <a href="login.html">Login</a>
+    `;
+  }
+}
+
+function logout() {
+  localStorage.removeItem("userEmail");
+  window.location.href = "login.html";
+}
+
+// Call when page loads
+checkLogin();
+</script>
+
+</body>
+</html>
