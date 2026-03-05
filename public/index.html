@@ -408,9 +408,8 @@ async function searchRecipes() {
   const category = document.getElementById("category").value;
 
 const response = await fetch(
-  `http://localhost:5000/search?ingredient=${query}&category=${category}`
+  `/search?ingredient=${query}&category=${category}`
 );
-
 
   const data = await response.json();
 
